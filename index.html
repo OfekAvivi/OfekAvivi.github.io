@@ -11,7 +11,12 @@
 <meta property="og:url" content="https://ofekavivi.com/">
 <meta property="og:title" content="Ofek Avivi">
 <meta property="og:description" content="Research on efficient diffusion language models (T²Quant). Builder of Unigrade.">
+<meta property="og:image" content="https://ofekavivi.com/photo.jpg">
+<meta property="og:image:width" content="640">
+<meta property="og:image:height" content="640">
+<meta property="og:image:alt" content="Ofek Avivi">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://ofekavivi.com/photo.jpg">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -22,6 +27,7 @@
  "@type": "Person",
  "name": "Ofek Avivi",
  "url": "https://ofekavivi.com/",
+ "image": "https://ofekavivi.com/photo.jpg",
  "affiliation": [
   {"@type": "CollegeOrUniversity", "name": "Technion – Israel Institute of Technology", "url": "https://www.technion.ac.il/en/"},
   {"@type": "ResearchOrganization", "name": "INSIGHT Lab, Ben-Gurion University of the Negev", "url": "https://insight.bgu.ac.il/"}
@@ -88,7 +94,13 @@ h1, h2, h3, p { margin: 0; }
 .cv-link:hover { background: var(--ink); color: var(--bg); }
 
 /* hero */
-.hero { display: grid; gap: 22px; max-width: 900px; }
+.hero { display: grid; grid-template-columns: minmax(0, 1fr) clamp(150px, 21vw, 230px); gap: 24px clamp(24px, 5vw, 64px); align-items: end; }
+.hero-text { display: grid; gap: 22px; min-width: 0; max-width: 900px; }
+.portrait { display: block; width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; border-radius: 18px; background: var(--rule); }
+@media (max-width: 640px) {
+  .hero { grid-template-columns: minmax(0, 1fr); }
+  .portrait { order: -1; width: 120px; border-radius: 14px; }
+}
 .name {
   font: 800 clamp(3.4rem, 13vw, 8.4rem)/.86 var(--f-display);
   font-variation-settings: "wdth" 78, "opsz" 96;
@@ -174,9 +186,12 @@ footer { font: 400 .78rem/1.5 var(--f-mono); color: var(--muted); }
   </header>
 
   <section class="hero" aria-label="About">
+    <div class="hero-text">
     <h1 class="name">Ofek Avivi</h1>
     <p class="lede">I research <b>efficient inference for diffusion language models</b> and build software for students. I'm a researcher at the Technion and the INSIGHT Lab, working with Avi Mendelson and Chaim Baskin.</p>
     <p class="affil"><span>Technion – Israel Institute of Technology</span><span>INSIGHT Lab, Ben-Gurion University</span></p>
+    </div>
+    <img class="portrait" src="photo.jpg" width="640" height="640" alt="Ofek Avivi" fetchpriority="high">
   </section>
 
   <main class="split">
