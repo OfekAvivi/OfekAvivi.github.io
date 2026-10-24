@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ofek Avivi</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Ofek Avivi: research on efficient inference for diffusion language models (T²Quant) at the Technion and INSIGHT Lab, and builder of Unigrade, a GPA tracker and degree planner for students.">
+<link rel="canonical" href="https://ofekavivi.com/">
+<meta property="og:type" content="profile">
+<meta property="og:url" content="https://ofekavivi.com/">
+<meta property="og:title" content="Ofek Avivi">
+<meta property="og:description" content="Research on efficient diffusion language models (T²Quant). Builder of Unigrade.">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap">
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "Person",
+ "name": "Ofek Avivi",
+ "url": "https://ofekavivi.com/",
+ "affiliation": [
+  {"@type": "CollegeOrUniversity", "name": "Technion – Israel Institute of Technology", "url": "https://www.technion.ac.il/en/"},
+  {"@type": "ResearchOrganization", "name": "INSIGHT Lab, Ben-Gurion University of the Negev", "url": "https://insight.bgu.ac.il/"}
+ ],
+ "knowsAbout": ["large language models", "diffusion language models", "quantization", "efficient inference"],
+ "sameAs": ["https://github.com/OfekAvivi", "https://www.linkedin.com/in/ofekavivi"]
+}
+</script>
+<style>
+/* Layout: a large name, then two equal columns, Research | Building, split by one vertical rule; a single column on phones.
+   One bold move (the display type for the name and the two column heads); everything else stays quiet. */
+:root {
+  --bg: #f5f7f5;        /* cool off-white, faint green bias toward the accent */
+  --ink: #111614;
+  --ink-2: #3f4744;
+  --muted: #69726e;
+  --rule: #d9dfdb;
+  --accent: #0b7a62;    /* deep teal */
+  --accent-soft: #e1efe9;
+  --ph: #fff4d6; --ph-ink: #7a5600; --ph-line: #e0b84a;   /* placeholder marking (temporary) */
+
+  --f-display: "Bricolage Grotesque", "Avenir Next", "Segoe UI", system-ui, sans-serif;
+  --f-body: "Geist", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --f-mono: "Geist Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+
+  /* bit-width ink ramp, only for the T²Quant miniature */
+  --b3: #dde4e0; --b4: #b3beb8; --b6: #5f6c66; --b8: #17201c;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0d1110; --ink: #e9eeeb; --ink-2: #bdc6c1; --muted: #8e9893; --rule: #242c29;
+    --accent: #45c6a4; --accent-soft: #12271f; --ph: #2b2410; --ph-ink: #f1c86a; --ph-line: #8a6b1f;
+    --b3: #222a27; --b4: #3d4843; --b6: #7f8c86; --b8: #dfe6e2;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0d1110; --ink: #e9eeeb; --ink-2: #bdc6c1; --muted: #8e9893; --rule: #242c29;
+  --accent: #45c6a4; --accent-soft: #12271f; --ph: #2b2410; --ph-ink: #f1c86a; --ph-line: #8a6b1f;
+  --b3: #222a27; --b4: #3d4843; --b6: #7f8c86; --b8: #dfe6e2;
+  color-scheme: dark;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 400 1rem/1.6 var(--f-body); -webkit-font-smoothing: antialiased; }
+a { color: inherit; text-decoration-color: var(--rule); text-underline-offset: 3px; text-decoration-thickness: 1px; }
+a:hover { color: var(--accent); text-decoration-color: currentColor; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 3px; }
+h1, h2, h3, p { margin: 0; }
+
+.page {
+  max-width: 1080px; margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: clamp(20px, 4vw, 40px) 56px;
+  display: grid; gap: clamp(40px, 7vw, 80px);
+}
+
+/* top bar */
+.bar { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px 24px; font: 500 .82rem/1 var(--f-mono); color: var(--muted); }
+.bar nav { display: flex; flex-wrap: wrap; gap: 6px 20px; }
+.bar a { text-decoration: none; }
+.cv-link { color: var(--ink); border: 1px solid var(--ink); border-radius: 999px; padding: 7px 14px; }
+.cv-link:hover { background: var(--ink); color: var(--bg); }
+
+/* hero */
+.hero { display: grid; gap: 22px; max-width: 900px; }
+.name {
+  font: 800 clamp(3.4rem, 13vw, 8.4rem)/.86 var(--f-display);
+  font-variation-settings: "wdth" 78, "opsz" 96;
+  letter-spacing: -.035em; text-wrap: balance;
+}
+.lede { font: 400 clamp(1.15rem, 2.4vw, 1.45rem)/1.45 var(--f-body); color: var(--ink-2); max-width: 36em; text-wrap: pretty; }
+.lede b { color: var(--ink); font-weight: 600; }
+.affil { font: 500 .85rem/1.5 var(--f-mono); color: var(--muted); display: flex; flex-wrap: wrap; gap: 4px 18px; }
+
+/* the two halves */
+.split { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); border-top: 1px solid var(--ink); }
+.half { padding-block: 22px 8px; display: grid; gap: 26px; align-content: start; min-width: 0; }
+.half:first-child { padding-right: clamp(18px, 3.5vw, 44px); border-right: 1px solid var(--rule); }
+.half:last-child { padding-left: clamp(18px, 3.5vw, 44px); }
+.half-head { display: grid; gap: 6px; }
+.half-head h2 {
+  font: 700 clamp(2rem, 4.6vw, 3rem)/1 var(--f-display);
+  font-variation-settings: "wdth" 85, "opsz" 72; letter-spacing: -.02em;
+}
+.half-head p { color: var(--muted); font-size: .95rem; }
+
+.items { list-style: none; margin: 0; padding: 0; display: grid; }
+.item { display: grid; gap: 7px; padding-block: 18px; border-top: 1px solid var(--rule); }
+.item:first-child { border-top: 0; padding-top: 4px; }
+.meta { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 12px; font: 500 .76rem/1.3 var(--f-mono); color: var(--muted); letter-spacing: .02em; }
+.meta .live { color: var(--accent); display: inline-flex; align-items: center; gap: 6px; }
+.meta .live::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+.item h3 { font: 600 1.14rem/1.3 var(--f-body); text-wrap: balance; }
+.item h3 a { text-decoration: none; }
+.item p { color: var(--ink-2); font-size: .97rem; max-width: 34em; }
+.links { display: flex; flex-wrap: wrap; gap: 6px 16px; font: 500 .84rem/1.4 var(--f-mono); }
+.links a { color: var(--accent); text-decoration: none; }
+.links a:hover { text-decoration: underline; }
+.links button { font: inherit; color: var(--accent); background: none; border: 0; padding: 0; cursor: pointer; }
+.links button:hover { text-decoration: underline; }
+.authors { font-size: .88rem; color: var(--muted); }
+.authors b { color: var(--ink); font-weight: 600; }
+
+/* the T²Quant miniature: its GSM8K precision schedule, 16 windows */
+.mini { display: grid; grid-template-columns: repeat(16, minmax(0, 1fr)); gap: 2px; max-width: 280px; }
+.mini span { height: 10px; border-radius: 2px; }
+.mini [data-b="3"] { background: var(--b3); } .mini [data-b="4"] { background: var(--b4); }
+.mini [data-b="6"] { background: var(--b6); } .mini [data-b="8"] { background: var(--b8); }
+
+.earlier { display: grid; gap: 10px; padding-top: 8px; border-top: 1px solid var(--rule); }
+.earlier h3 { font: 500 .76rem/1.3 var(--f-mono); color: var(--muted); letter-spacing: .06em; text-transform: uppercase; }
+.earlier ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.earlier li { display: grid; gap: 1px; font-size: .92rem; }
+.earlier li a { font-weight: 500; text-decoration: none; }
+.earlier li a:hover { text-decoration: underline; }
+.earlier li span { color: var(--muted); font-size: .84rem; }
+.email { color: var(--ink); user-select: all; }
+.email button { user-select: none; }
+pre.bib { margin: 0; overflow-x: auto; font: 400 .76rem/1.55 var(--f-mono); color: var(--ink-2); background: var(--accent-soft); border-radius: 8px; padding: 12px 14px; }
+
+/* contact */
+.contact { border-top: 1px solid var(--ink); padding-top: 22px; display: grid; gap: 14px; }
+.contact h2 { font: 700 clamp(1.6rem, 3.6vw, 2.2rem)/1 var(--f-display); font-variation-settings: "wdth" 85; }
+.contact .links { font-size: .9rem; gap: 8px 22px; }
+footer { font: 400 .78rem/1.5 var(--f-mono); color: var(--muted); }
+
+/* placeholders: visible on purpose until real content replaces them */
+.ph { background: var(--ph); color: var(--ph-ink); border-bottom: 1px dashed var(--ph-line); border-radius: 3px; padding: 0 4px; font-style: normal; }
+
+@media (max-width: 760px) {
+  .split { grid-template-columns: minmax(0, 1fr); }
+  .half:first-child { padding-right: 0; border-right: 0; }
+  .half:last-child { padding-left: 0; border-top: 1px solid var(--ink); }
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header class="bar">
+    <span>ofekavivi.com</span>
+    <nav aria-label="Links">
+      <a href="#research">Research</a>
+      <a href="#building">Building</a>
+      <a href="https://github.com/OfekAvivi">GitHub</a>
+      <a class="cv-link" href="cv.pdf">CV</a>
+    </nav>
+  </header>
+
+  <section class="hero" aria-label="About">
+    <h1 class="name">Ofek Avivi</h1>
+    <p class="lede">I research <b>efficient inference for diffusion language models</b> and build software for students. I'm a researcher at the Technion and the INSIGHT Lab, working with Avi Mendelson and Chaim Baskin.</p>
+    <p class="affil"><span>Technion – Israel Institute of Technology</span><span>INSIGHT Lab, Ben-Gurion University</span></p>
+  </section>
+
+  <main class="split">
+    <section class="half" id="research" aria-labelledby="research-h">
+      <div class="half-head">
+        <h2 id="research-h">Research</h2>
+        <p>LLMs · diffusion language models · quantization</p>
+      </div>
+      <ul class="items">
+        <li class="item">
+          <div class="meta"><span>arXiv 2026</span><span>Preprint</span></div>
+          <h3><a href="https://t2quant.ofekavivi.com">Different Tasks, Different Timesteps: Temporal Task-Aware Quantization for Diffusion Language Models</a></h3>
+          <p class="authors"><b>Ofek Avivi*</b>, Eliron Rahimi*, Avi Mendelson, Chaim Baskin · *equal contribution</p>
+          <p>T²Quant gives each denoising step of a diffusion LM its own activation precision, per task, from a label-free signal. It improves three recent quantizers on every model at the same 4-bit budget, by up to 6.7 points.</p>
+          <div class="mini" role="img" aria-label="T²Quant's GSM8K schedule: 8, 6 and 6 bits in the first windows, 3 bits at the end">
+            <span data-b="8"></span><span data-b="6"></span><span data-b="6"></span><span data-b="4"></span><span data-b="4"></span><span data-b="4"></span><span data-b="4"></span><span data-b="4"></span><span data-b="3"></span><span data-b="3"></span><span data-b="3"></span><span data-b="3"></span><span data-b="3"></span><span data-b="3"></span><span data-b="3"></span><span data-b="3"></span>
+          </div>
+          <div class="links">
+            <a href="https://arxiv.org/abs/2610.31198">Paper</a>
+            <a href="https://t2quant.ofekavivi.com">Project page</a>
+            <a href="https://github.com/OfekAvivi/T2Quant">Code</a>
+            <a href="https://huggingface.co/papers/2610.31198">Hugging Face</a>
+            <button type="button" id="bib-btn" aria-expanded="false" aria-controls="bib">BibTeX</button>
+          </div>
+          <pre class="bib" id="bib" hidden>@misc{avivi2026t2quant,
+  title         = {Different Tasks, Different Timesteps: Temporal Task-Aware Quantization for Diffusion Language Models},
+  author        = {Avivi, Ofek and Rahimi, Eliron and Mendelson, Avi and Baskin, Chaim},
+  year          = {2026},
+  eprint        = {2610.31198},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.AI},
+  url           = {https://arxiv.org/abs/2610.31198}
+}</pre>
+        </li>
+      </ul>
+    </section>
+
+    <section class="half" id="building" aria-labelledby="building-h">
+      <div class="half-head">
+        <h2 id="building-h">Building</h2>
+        <p>Products I make and run.</p>
+      </div>
+      <ul class="items">
+        <li class="item">
+          <div class="meta"><span class="live">Live</span><span>Web app</span><span>2026</span></div>
+          <h3><a href="https://unigradeapp.com">Unigrade</a></h3>
+          <p>A free GPA tracker and degree planner for university students: grades, GPA, degree planning and career options in one place.</p>
+          <div class="links"><a href="https://unigradeapp.com">unigradeapp.com</a></div>
+        </li>
+      </ul>
+      <div class="earlier">
+        <h3>Earlier projects</h3>
+        <ul>
+          <li><a href="https://github.com/OfekAvivi/Connect-4-AI">Connect 4 AI</a><span>Minimax, alpha-beta and DQN agents · Python · 2024</span></li>
+          <li><a href="https://ofekavivi.github.io/sorting-visualizer/">Sorting Visualizer</a><span>Sorting algorithms, step by step · React · 2024</span></li>
+          <li><a href="https://github.com/OfekAvivi/assembler">Two-pass assembler</a><span>For a made-up 16-instruction machine · C · 2022</span></li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <section class="contact" aria-labelledby="contact-h">
+    <h2 id="contact-h">Get in touch</h2>
+    <div class="links">
+      <span class="email"><span id="email">ofek@ofekavivi.com</span> <button type="button" id="copy-email">Copy</button></span>
+      <a href="https://www.linkedin.com/in/ofekavivi">LinkedIn</a>
+      <a href="https://github.com/OfekAvivi">GitHub</a>
+      <a href="cv.pdf">CV (PDF)</a>
+    </div>
+  </section>
+
+  <footer>© 2026 Ofek Avivi</footer>
+</div>
+
+<script>
+  const btn = document.getElementById("bib-btn"), bib = document.getElementById("bib");
+  btn.addEventListener("click", () => {
+    const open = bib.hidden;
+    bib.hidden = !open;
+    btn.setAttribute("aria-expanded", String(open));
+    btn.textContent = open ? "Hide BibTeX" : "BibTeX";
+  });
+  const copyBtn = document.getElementById("copy-email"), email = document.getElementById("email");
+  copyBtn.addEventListener("click", () => {
+    const done = t => { copyBtn.textContent = t; setTimeout(() => (copyBtn.textContent = "Copy"), 1600); };
+    const select = () => { const r = document.createRange(); r.selectNodeContents(email); const sel = getSelection(); sel.removeAllRanges(); sel.addRange(r); };
+    try { navigator.clipboard.writeText(email.textContent).then(() => done("Copied"), () => { select(); done("Selected"); }); }
+    catch (e) { select(); done("Selected"); }
+  });
+</script>
+</body>
+</html>
