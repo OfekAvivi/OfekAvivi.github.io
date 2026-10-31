@@ -143,8 +143,6 @@ h1, h2, h3, p { margin: 0; }
 .item { display: grid; gap: 7px; padding-block: 18px; border-top: 1px solid var(--rule); }
 .item:first-child { border-top: 0; padding-top: 4px; }
 .meta { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 12px; font: 500 .76rem/1.3 var(--f-mono); color: var(--muted); letter-spacing: .02em; }
-.meta .live { color: var(--accent); display: inline-flex; align-items: center; gap: 6px; }
-.meta .live::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
 .item h3 { font: 600 1.14rem/1.3 var(--f-body); text-wrap: balance; }
 .item h3 a { text-decoration: none; }
 .item p { color: var(--ink-2); font-size: .97rem; max-width: 34em; }
@@ -253,16 +251,21 @@ footer { font: 400 .78rem/1.5 var(--f-mono); color: var(--muted); }
       </div>
       <ul class="items">
         <li class="item">
-          <div class="meta"><span class="live">Live</span><span>Web app</span><span>2026</span></div>
+          <div class="meta"><span>Web app</span><span>2026</span></div>
           <h3><a href="https://unigradeapp.com">Unigrade</a></h3>
           <p>A free GPA tracker and degree planner for university students: grades, GPA, degree planning and career options in one place.</p>
           <div class="links"><a href="https://unigradeapp.com">unigradeapp.com</a></div>
+        </li>
+        <li class="item">
+          <div class="meta"><span>Web app · Python</span><span>2026</span></div>
+          <h3><a href="https://connect4ai.ofekavivi.com">Connect 4 AI</a></h3>
+          <p>Play Connect 4 against Minimax, alpha-beta and DQN agents, available as a web app and in Python.</p>
+          <div class="links"><a href="https://connect4ai.ofekavivi.com">Play online</a><a href="https://github.com/OfekAvivi/Connect-4-AI">Python / Code</a></div>
         </li>
       </ul>
       <div class="earlier">
         <h3>Earlier projects</h3>
         <ul>
-          <li><a href="https://github.com/OfekAvivi/Connect-4-AI">Connect 4 AI</a><span>Minimax, alpha-beta and DQN agents · Python · 2024</span></li>
           <li><a href="https://ofekavivi.com/sorting-visualizer/">Sorting Visualizer</a><span>Sorting algorithms, step by step · React · 2024</span></li>
           <li><a href="https://github.com/OfekAvivi/assembler">Two-pass assembler</a><span>For a made-up 16-instruction machine · C · 2022</span></li>
         </ul>
